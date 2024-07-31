@@ -26,10 +26,10 @@ class AdvMarketplace(ARC4Contract):
 
     @arc4.abimethod
     def allow_asset(self, mbr_pay: gtxn.PaymentTransaction, asset: Asset) -> None:
-        # assert not Global.current_application_address.is_opted_in(asset), "asset already exists"
+        assert not Global.current_application_address.is_opted_in(asset), "asset already exists"
 
-        # assert mbr_pay.receiver == Global.current_application_address
-        # assert mbr_pay.amount == Global.asset_opt_in_min_balance
+        assert mbr_pay.receiver == Global.current_application_address
+        assert mbr_pay.amount == Global.asset_opt_in_min_balance
 
         itxn.AssetTransfer(
             xfer_asset=asset,
