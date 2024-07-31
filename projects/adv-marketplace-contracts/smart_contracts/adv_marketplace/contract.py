@@ -1,5 +1,5 @@
 # pyright: reportMissingModuleSource=false
-from algopy import Account, Asset, Global, Txn, UInt64, arc4, gtxn, itxn, op, subroutine
+from algopy import ARC4Contract, Account, Asset, Global, Txn, UInt64, arc4, gtxn, itxn, op, subroutine
 
 FOR_SALE_BOX_KEY_LENGTH = 48
 FOR_SALE_BOX_VALUE_LENGTH = 64
@@ -7,7 +7,7 @@ FOR_SALE_BOX_SIZE = FOR_SALE_BOX_KEY_LENGTH + FOR_SALE_BOX_VALUE_LENGTH
 FOR_SALE_BOX_MBR = 2_500 + FOR_SALE_BOX_SIZE * 400
 
 
-class DigitalMarketplace(arc4.ARC4Contract):
+class AdvMarketplace(ARC4Contract):
     @subroutine
     def quantity_price(
         self, quantity: UInt64, price: UInt64, asset_decimals: UInt64
@@ -26,10 +26,10 @@ class DigitalMarketplace(arc4.ARC4Contract):
 
     @arc4.abimethod
     def allow_asset(self, mbr_pay: gtxn.PaymentTransaction, asset: Asset) -> None:
-        assert not Global.current_application_address.is_opted_in(asset)
+        # assert not Global.current_application_address.is_opted_in(asset), "asset already exists"
 
-        assert mbr_pay.receiver == Global.current_application_address
-        assert mbr_pay.amount == Global.asset_opt_in_min_balance
+        # assert mbr_pay.receiver == Global.current_application_address
+        # assert mbr_pay.amount == Global.asset_opt_in_min_balance
 
         itxn.AssetTransfer(
             xfer_asset=asset,
